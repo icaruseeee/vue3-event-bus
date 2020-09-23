@@ -1,0 +1,21 @@
+{
+    "compilerOptions": {
+        "outDir": "./dist-built/bundle.js",
+        "target": "es2015",
+        "module": "es2015",
+        "noImplicitAny": false, 
+        "removeComments": true,
+        "preserveConstEnums": true,
+        "isolatedModules": true, 
+        "allowSyntheticDefaultImports": true, 
+        "moduleResolution": "node", 
+        "resolveJsonModule": true, 
+        "esModuleInterop": true, 
+        "lib": ["dom", "es2020"], 
+        "newLine": "LF",
+        "baseUrl": ".",
+    },
+
+    "include": ["src/**/*", "test/**/*"],
+    "exclude": ["node_modules", "dist"]
+}

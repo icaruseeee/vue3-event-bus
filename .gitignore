@@ -1,0 +1,12 @@
+# Dependency directory
+node_modules
+
+# Build result
+dist-*
+
+# Code analysis
+.idea
+/stat.json
+
+# Editor
+.vscode
