@@ -19,32 +19,57 @@ export interface eventBusType {
     // once<T = any> (event: eventType, handler: handlerType<T>): void
     off<T = any> (event: eventType, handler: handlerType<T>): void
     emit<T = any> (event: eventType, ev?: T): void
+    clear():void
 }
 
 class EventBus implements eventBusType {
     protected bus: eventHandlerMap
     private strict: boolean
+    private eventList: Array<eventType>
 
     constructor(eventList?: Array<eventType>) {
         this.strict = eventList && !!eventList.length
+        this.strict && (this.eventList = eventList)
         this.bus = new Map()
     }
 
-    on<T = any>(event: eventType, handler: handlerType<T>): void {
-        console.log(this, event, handler)
+    // validate
+    // check event name when strict mode
+    validate(event: eventType): void { 
+        if (!this.strict) { return } 
+
+        if (!this.eventList.includes(event)) {
+            throw new Error('Event type not supported under strict mode')
+        }
     }
 
-    once<T = any>(event: eventType, handler: handlerType<T>): void {
-        console.log(this, event, handler)
+    on<T = any>(event: eventType, handler: handlerType<T>): void {
+        this.validate(event)
+        const handlers = this.bus.get(event)
+
+        if (handlers) { 
+            handlers.push(handler) 
+        } else {
+            this.bus.set(event, [handler])
+        }
     }
+
+    // once<T = any>(event: eventType, handler: handlerType<T>): void {
+    //     console.log(this, event, handler)
+    // }
 
     off<T = any>(event: eventType, handler: handlerType<T>): void {
         console.log(this, event, handler)
     }
 
     emit<T = any>(event: eventType, ev?: T): void {
-        console.log(this, event, ev)
+        this.validate(event)
+        const handlers = this.bus.get(event) || []
+
+        handlers.slice().forEach(handler => handler(ev))
     }
+
+    clear(): void { this.bus.clear() }
 }
 
 export default EventBus
