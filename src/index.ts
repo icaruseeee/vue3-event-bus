@@ -1,47 +1,17 @@
-// TODO 
-// support wildcard custom event
+import { provide, inject } from 'vue'
+import EventBus, { eventType, eventBusType } from './EventBus'
 
-// name | symbol of event
-export type eventType = string | symbol
+const createEventBus = (eventList:Array<eventType>): eventBusType => new EventBus(eventList)
+const eventBusSymbol = Symbol()
 
-// an event handler should not return value
-export type handlerType <T = any> = (ev?: T) => void
-
-// array of event handler
-export type handlerListType = Array<handlerType>
-
-// use map to store handlers
-export type eventHandlerMap = Map<eventType, handlerListType>
-
-export interface eventBusType {
-    on<T = any> (event: eventType, handler: handlerType<T>): void
-    // TODO
-    // once<T = any> (event: eventType, handler: handlerType<T>): void
-    off<T = any> (event: eventType, handler: handlerType<T>): void
-    emit<T = any> (event: eventType, ev?: T): void
+export function provideEventBus(eventList: Array<eventType>):void {
+    const eventBus = createEventBus(eventList)
+    provide(eventBusSymbol, eventBus)
 }
 
-class EventBus implements eventBusType {
-    protected bus: eventHandlerMap
-    constructor() {
-        this.bus = new Map()
-    }
+export function useEventBus():eventBusType {
+    const eventBus = inject<eventBusType>(eventBusSymbol)
+    if (!eventBus) { throw new Error('No event bus provided') }
 
-    on<T = any>(event: eventType, handler: handlerType<T>): void {
-        console.log(this, event, handler)
-    }
-
-    once<T = any>(event: eventType, handler: handlerType<T>): void {
-        console.log(this, event, handler)
-    }
-
-    off<T = any>(event: eventType, handler: handlerType<T>): void {
-        console.log(this, event, handler)
-    }
-
-    emit<T = any>(event: eventType, ev?: T): void {
-        console.log(this, event, ev)
-    }
+    return eventBus
 }
-
-export default EventBus
