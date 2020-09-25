@@ -39,7 +39,7 @@ class EventBus implements eventBusType {
         if (!this.strict) { return } 
 
         if (!this.eventList.includes(event)) {
-            throw new Error('Event type not supported under strict mode')
+            throw new Error('EventBus: Event type not supported under strict mode')
         }
     }
 
@@ -59,7 +59,12 @@ class EventBus implements eventBusType {
     // }
 
     off<T = any>(event: eventType, handler: handlerType<T>): void {
-        console.log(this, event, handler)
+        this.validate(event)
+        const handlers = this.bus.get(event)
+
+        if (handlers.length && handlers.indexOf(handler) !== -1) { 
+            handlers.splice(handlers.indexOf(handler), 1)
+        }
     }
 
     emit<T = any>(event: eventType, ev?: T): void {
