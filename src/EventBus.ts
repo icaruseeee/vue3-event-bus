@@ -1,17 +1,7 @@
 // TODO 
 // support wildcard custom event
 
-// name | symbol of event
-export type eventType = string | symbol
-
-// an event handler should not return value
-export type handlerType <T = any> = (ev?: T) => void
-
-// array of event handler
-export type handlerListType = Array<handlerType>
-
-// use map to store handlers
-export type eventHandlerMap = Map<eventType, handlerListType>
+import { eventType, handlerType, eventHandlerMap } from 'types/EventBus'
 
 export interface eventBusType {
     on<T = any> (event: eventType, handler: handlerType<T>): void

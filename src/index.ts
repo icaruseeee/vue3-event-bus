@@ -1,5 +1,6 @@
 import { provide, inject, onBeforeUnmount, version } from 'vue'
-import EventBus, { eventType, eventBusType } from './EventBus'
+import EventBus from './EventBus'
+import { eventType, eventBusType } from 'types/EventBus'
 
 const createEventBus = (eventList:Array<eventType>): eventBusType => new EventBus(eventList)
 const eventBusSymbol = Symbol()

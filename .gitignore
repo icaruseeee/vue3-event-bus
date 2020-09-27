@@ -2,9 +2,6 @@
 node_modules
 package-lock.json
 
-# Build result
-dist-*
-
 # Code analysis
 .idea
 /stat.json

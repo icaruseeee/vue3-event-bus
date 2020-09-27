@@ -16,6 +16,6 @@
         "baseUrl": ".",
     },
 
-    "include": ["src/**/*", "test/**/*"],
+    "include": ["src/**/*", "types/**/*"],
     "exclude": ["node_modules", "dist"]
 }
